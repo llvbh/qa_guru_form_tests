@@ -1,93 +1,53 @@
 package tests;
-
-import com.codeborne.selenide.Condition;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import java.io.File;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TextBoxTests extends TestBase {
     @BeforeEach
-    void setUp() {
-        open("https://demoqa.com/automation-practice-form");
-    }
-
+    void openTextBox() {
+        open("/text-box");
+  }
     @Test
-    void fullFieldsFormTest() {
-        $("#firstName").setValue("Harry");
-        $("#lastName").setValue("Potter");
+    void allFieldsFilledSuccessfullyTest() {
+        $("#userName").setValue("Harry Potter");
         $("#userEmail").setValue("harry.potter@gmail.com");
-        $(byText("Male")).click();
-        $("#userNumber").setValue("7778889999");
-        $("#dateOfBirthInput").click();
-        $("select.react-datepicker__month-select").selectOptionByValue("5");
-        $("select.react-datepicker__year-select").selectOptionByValue("2003");
-        $(".react-datepicker__day--015").click();
-        $("#hobbiesWrapper").$(byText("Reading")).click();
-        $("input[type='file']").uploadFile(new File("src/test/resources/kitten.jpg"));
         $("#currentAddress").setValue("4 Privet Drive, Little Whinging, Surrey");
-        $("#state").scrollTo().click();
-        $("#state").scrollTo().$(byText("NCR")).click();
-        $("#city").click();
-        $("#city").scrollTo().$(byText("Delhi")).click();
+        $("#permanentAddress").setValue("Hogwarts School of Witchcraft and Wizardry");
         $("#submit").scrollTo().click();
-            $(".modal-content").shouldBe(visible);
-            $(".table-responsive").shouldHave(
-                    text("Harry Potter"),
-                    text("harry.potter@gmail.com"),
-                    text("2003")
-            );
-    }
+        $("#output").shouldBe(visible);
+        $("#output").shouldBe(visible);
+        $("#output #name").shouldHave(text("Harry Potter"));
+        $("#output #email").shouldHave(text("harry.potter@gmail.com"));
+        $("#output #currentAddress").shouldHave(text("4 Privet Drive, Little Whinging, Surrey"));
+        $("#output #permanentAddress").shouldHave(text("Hogwarts School of Witchcraft and Wizardry"));
 
-    @Test
-    void requiredFieldsFormTest () {
-       $("#firstName").setValue("Harry");
-       $("#lastName").setValue("Potter");
-       $(byText("Male")).click();
-       $("#userNumber").setValue("7004778833");
-       $("#submit").scrollTo().click();
-            $(".modal-content").shouldBe(visible);
     }
-
     @Test
-    void invalidEmailTest () {
-        $("#firstName").setValue("Harry");
-        $("#lastName").setValue("Potter");
-        $("#gender-radio-2").click();
-        $("#userNumber").setValue("7004778833");
-        $("#userEmail").setValue("эмейл");
+    void nameWithSpecialCharactersIsSavedTest() {
+        $("#userName").setValue(". ");
         $("#submit").scrollTo().click();
-            $("#userEmail").shouldHave(Condition.cssValue("border-color", "rgb(220, 53, 69)"));
-    }
+        $("#output").shouldBe(visible);
+        $("#output #name").shouldHave(text("Name:. "));
 
+    }
     @Test
-    void phoneWithOneDigitReturnsErrorTest () {
-        $("#firstName").setValue("Harry");
-        $("#lastName").setValue("Potter");
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue("1");
+    void onlyNameFilledSuccessfullyTest() {
+        $("#userName").setValue("Harry Potter");
         $("#submit").scrollTo().click();
-            $("#userForm").shouldHave(cssClass("was-validated"));
-            $(".modal-content").shouldNotBe(visible);
+        $("#output").shouldBe(visible);
+        $("#output #name").shouldHave(text("Name:Harry Potter"));
+        $("#output").shouldNotHave(text("Email:"));
+        $("#output").shouldNotHave(text("Current Address :"));
     }
 
     @Test
-    void dependentStateCityDropdownValidationTest () {
-        $("#firstName").setValue("Harry");
-        $("#lastName").setValue("Potter");
-        $("input[id='gender-radio-1'][value='Male']").click();
-        $("[id=userNumber]").setValue("7004778833");
-        $("#state").scrollTo().click();
-        $(byText("Haryana")).click();
-        $("#city").scrollTo().click();
-        $("#city").shouldNotHave(text("Delhi"));
-        $(byText("Karnal")).click();
-        $("[id='submit'][type='submit']").click();
-            $(".table-responsive").shouldBe(visible);
-            $(".table-responsive").shouldHave(text("Karnal"));
+    void invalidEmailShowsErrorTest() {
+        $("#userEmail").setValue("invalid-email.com");
+        $("#submit").scrollTo().click();
+        $("#userEmail").shouldHave(cssClass("field-error"));
+        $("#output").shouldNotBe(visible);
+    }
 }
-}
-
