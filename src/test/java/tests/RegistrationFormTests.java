@@ -37,16 +37,16 @@ public class RegistrationFormTests extends TestBase {
         executeJavaScript("arguments[0].click();", $("#submit"));
         $(".modal-content").shouldBe(visible);
         $(".modal-content").shouldBe(visible);
-        $x("//td[text()='Student Name']/following-sibling::td").shouldHave(text("Harry Potter"));
-        $x("//td[text()='Student Email']/following-sibling::td").shouldHave(text("harry.potter@gmail.com"));
-        $x("//td[text()='Gender']/following-sibling::td").shouldHave(text("Male"));
-        $x("//td[text()='Mobile']/following-sibling::td").shouldHave(text("7778889999"));
-        $x("//td[text()='Date of Birth']/following-sibling::td").shouldHave(text("15 June,2003"));
-        $x("//td[text()='Subjects']/following-sibling::td").shouldHave(text("Maths"));
-        $x("//td[text()='Hobbies']/following-sibling::td").shouldHave(text("Reading"));
-        $x("//td[text()='Picture']/following-sibling::td").shouldHave(text("kitten.jpg"));
-        $x("//td[text()='Address']/following-sibling::td").shouldHave(text("4 Privet Drive, Little Whinging, Surrey"));
-        $x("//td[text()='State and City']/following-sibling::td").shouldHave(text("NCR Delhi"));
+        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text("Harry Potter"));
+        $(".table-responsive").$(byText("Student Email")).parent().shouldHave(text("harry.potter@gmail.com"));
+        $(".table-responsive").$(byText("Gender")).parent().shouldHave(text("Male"));
+        $(".table-responsive").$(byText("Mobile")).parent().shouldHave(text("7778889999"));
+        $(".table-responsive").$(byText("Date of Birth")).parent().shouldHave(text("15 June,2003"));
+        $(".table-responsive").$(byText("Subjects")).parent().shouldHave(text("Maths"));
+        $(".table-responsive").$(byText("Hobbies")).parent().shouldHave(text("Reading"));
+        $(".table-responsive").$(byText("Picture")).parent().shouldHave(text("kitten.jpg"));
+        $(".table-responsive").$(byText("Address")).parent().shouldHave(text("4 Privet Drive, Little Whinging, Surrey"));
+        $(".table-responsive").$(byText("State and City")).parent().shouldHave(text("NCR Delhi"));
     }
 
     @Test
@@ -57,9 +57,9 @@ public class RegistrationFormTests extends TestBase {
         $("#userNumber").setValue("7004778833");
         $("#submit").scrollTo().click();
         $(".modal-content").shouldBe(visible);
-        $x("//td[text()='Student Name']/following-sibling::td").shouldHave(text("Harry Potter"));
-        $x("//td[text()='Gender']/following-sibling::td").shouldHave(text("Male"));
-        $x("//td[text()='Mobile']/following-sibling::td").shouldHave(text("7004778833"));
+        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text("Harry Potter"));
+        $(".table-responsive").$(byText("Gender")).parent().shouldHave(text("Male"));
+        $(".table-responsive").$(byText("Mobile")).parent().shouldHave(text("7004778833"));
     }
 
     @Test
