@@ -4,7 +4,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-1
+
 public class TextBoxTests extends TestBase {
     @BeforeEach
     void openTextBox() {
@@ -44,7 +44,7 @@ public class TextBoxTests extends TestBase {
     }
 
     @Test
-    void invalidEmailShowsErrorTest() {
+    void invalidEmailAddressShowsErrorTest() {
         $("#userEmail").setValue("invalid-email.com");
         $("#submit").scrollTo().click();
         $("#userEmail").shouldHave(cssClass("field-error"));
