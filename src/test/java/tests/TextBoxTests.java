@@ -44,7 +44,7 @@ public class TextBoxTests extends TestBase {
     }
 
     @Test
-    void invalidEmailAddressShowsErrorTest() {
+    void invalidEmailShowsErrorTest() {
         $("#userEmail").setValue("invalid-email.com");
         $("#submit").scrollTo().click();
         $("#userEmail").shouldHave(cssClass("field-error"));
